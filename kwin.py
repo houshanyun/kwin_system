@@ -3,6 +3,7 @@
 import random
 import pandas as pd
 import os
+import sys
 
 def key_count(x1):   
     def key_in():
@@ -18,7 +19,8 @@ def word_read():
     print(w)
     keyin = input('word: ')
     if keyin == 'end':
-        pass
+        print('close……')
+        sys.exit()
     elif keyin == w[0]:
         print('ok')
     else:
