@@ -47,10 +47,11 @@ filepath = os.path.dirname(os.path.abspath(__file__))
 allpath = os.path.join(filepath, 'words.csv')
 df1 = pd.read_csv(allpath)
 df1.columns = ['1', '2', 'en', 'tw' ]
-a = df1.loc[:, 'en']
-b = df1.loc[:,'tw']
-c = zip(a, b)
-words = list(c)
+ens = df1['en']
+tws = df1['tw']
+enandtw = zip(ens, tws)
+words = list(enandtw)
+print(type(words))
     
-word_read()
+#word_read()
 
