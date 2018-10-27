@@ -55,19 +55,30 @@ class KeyinEx:
             print(f'可惜錯了{self.erCount}個！')
 
 
-### 資料處理 ###
+class DataCsv:
+    def __init__(self, allpath):
+        self.path = allpath
+        self.df = pd.read_csv(self.path)   
+        
 
+    def outcsv(self):
+        self.df.columns = ['1', '2', 'en', 'tw' ]
+        ens = self.df['en']
+        tws = self.df['tw']
+        enandtw = zip(ens, tws)
+        words = list(enandtw)
+        return words
+
+
+### 資料處理 ###
 print("請輸入練習次數 or 輸入'end'離開程式")
 filepath = os.path.dirname(os.path.abspath(__file__))
 allpath = os.path.join(filepath, 'words.csv')
-df1 = pd.read_csv(allpath)
-df1.columns = ['1', '2', 'en', 'tw' ]
-ens = df1['en']
-tws = df1['tw']
-enandtw = zip(ens, tws)
-words = list(enandtw)
+
 
 ### 主程式 ###
+csvdata = DataCsv(allpath)
+words = csvdata.outcsv()
 
 testk = KeyinEx(words)
 testk.mycount()

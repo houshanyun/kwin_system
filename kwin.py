@@ -5,44 +5,59 @@ import pandas as pd
 import os
 import sys
 
-def key_count(x1):   
-    def key_in():
-        try:
-            n = input('count: ')
-            if n == 'end':
-                sys.exit()
-        except ValueError:
-            print('請輸入整數！')
-            n = input('count: ')
-        error = 0
-        for i in range(int(n)):
-            error += x1()
-        if error == 0:
-            print('恭喜你！太完美了！')
-        else:
-            print(f'可惜錯了{error}個！')
-    return key_in
+### 功能函數 ###
 
+class KeyinEx:
+    def __init__(self, words, exCount=0, erCount=0):
+        self.words = words
+        self.exCount = exCount
+        self.erCount = erCount
+    
 
-@key_count
-def word_read():
-    error_count = 0        
-    w = random.choice(words)
-    print(f'EN: {w[0]}\nTW: {w[1]}')
-    keyin = input('keyin: ')
-    if keyin.lower() == 'end':
-        print('close……')
-        sys.exit()
-    elif keyin.lower() == w[0].lower():
-        print('ok')
-    else:
-        print('error')
-        error_count = 1
-    return error_count
+    def mycount(self):
+        while True:
+            try:
+                Count = input('count: ')
+                if Count == 'end':
+                    print('close……')
+                    testk.close_sys()
+                else:
+                    self.exCount = int(Count)
+                    break
+            except Exception as e:
+                print('錯誤訊息：', e)
+                print('請輸入整數！')
+                continue
         
 
-print("請輸入練習次數 or 輸入'end'離開程式")
+    def word_put(self):
+        temp_space = list()
+        temp_space = random.sample(self.words, k=self.exCount)
+        while temp_space:
+            w = temp_space.pop()
+            print(f'EN:{w[0]}\nTW:{w[1]}')
+            key_in = input('keyin: ')
+            if key_in.lower() == w[0].lower():
+                print('ok')
+            else:
+                print('error')
+                self.erCount += 1
+    
 
+    def close_sys(self):
+        sys.exit()
+
+
+    def level(self):
+        if self.erCount == 0:
+            print('恭喜你！太完美了！')
+        else:
+            print(f'可惜錯了{self.erCount}個！')
+
+
+### 資料處理 ###
+
+print("請輸入練習次數 or 輸入'end'離開程式")
 filepath = os.path.dirname(os.path.abspath(__file__))
 allpath = os.path.join(filepath, 'words.csv')
 df1 = pd.read_csv(allpath)
@@ -51,7 +66,10 @@ ens = df1['en']
 tws = df1['tw']
 enandtw = zip(ens, tws)
 words = list(enandtw)
-print(type(words))
-    
-#word_read()
 
+### 主程式 ###
+
+testk = KeyinEx(words)
+testk.mycount()
+testk.word_put()
+testk.level()
