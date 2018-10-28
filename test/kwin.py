@@ -17,17 +17,23 @@ class KeyinEx:
     def mycount(self):
         while True:
             try:
-                Count = input('count: ')
+                Count = input('練習次數: ')
                 if Count == 'end':
                     print('close……')
                     testk.close_sys()
-                else:
-                    self.exCount = int(Count)
-                    break
+                elif Count.isnumeric():
+                    if 1 <= int(Count) <= 50:
+                        self.exCount = int(Count)
+                        break
+                    else:
+                        print('請輸入1~50之間的數字')
+                elif Count.isalnum() or Count.isalpha():
+                    print('請輸入整數！')
+                elif Count.isspace():
+                    print('請輸入整數')
             except Exception as e:
                 print('錯誤訊息：', e)
                 print('請輸入整數！')
-                continue
         
 
     def word_put(self):
@@ -71,13 +77,13 @@ class DataCsv:
 
 
 ### 資料處理 ###
-print("請輸入練習次數 or 輸入'end'離開程式")
+print("請輸入練習次數（1~50之間的數字） or 輸入'end'離開程式")
 filepath = os.path.dirname(os.path.abspath(__file__))
-allpath = os.path.join(filepath, 'words.csv')
+wpath = os.path.join(filepath, 'words.csv')
 
 
 ### 主程式 ###
-csvdata = DataCsv(allpath)
+csvdata = DataCsv(wpath)
 words = csvdata.outcsv()
 
 testk = KeyinEx(words)
