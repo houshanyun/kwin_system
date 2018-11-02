@@ -21,21 +21,19 @@ class KeyinEx:
                 if Count == 'end':
                     print('close……')
                     testk.close_sys()
-                elif Count.isnumeric():
+                elif Count.isdigit():
                     if 1 <= int(Count) <= 50:
                         self.exCount = int(Count)
                         break
                     else:
                         print('請輸入1~50之間的數字')
-                elif Count.isalnum() or Count.isalpha():
+                else:
                     print('請輸入整數！')
-                elif Count.isspace():
-                    print('請輸入整數')
             except Exception as e:
                 print('錯誤訊息：', e)
                 print('請輸入整數！')
-        
-
+    
+    
     def word_put(self):
         temp_space = list()
         temp_space = random.sample(self.words, k=self.exCount)
@@ -64,7 +62,8 @@ class KeyinEx:
 class DataCsv:
     def __init__(self, allpath):
         self.path = allpath
-        self.df = pd.read_csv(self.path)   
+        self.df = pd.read_csv(self.path)
+        self.data = self.df.describe()  
         
 
     def outcsv(self):
@@ -74,6 +73,10 @@ class DataCsv:
         enandtw = zip(ens, tws)
         words = list(enandtw)
         return words
+    
+    def testdata(self):
+        mydata = self.data
+        print(mydata)
 
 
 ### 資料處理 ###
@@ -85,6 +88,7 @@ wpath = os.path.join(filepath, 'words.csv')
 ### 主程式 ###
 csvdata = DataCsv(wpath)
 words = csvdata.outcsv()
+csvdata.testdata()
 
 testk = KeyinEx(words)
 testk.mycount()

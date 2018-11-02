@@ -27,9 +27,7 @@ class KeyinEx:
                         break
                     else:
                         print('請輸入1~50之間的數字')
-                elif Count.isalnum() or Count.isalpha():
-                    print('請輸入整數！')
-                elif Count.isspace():
+                else:
                     print('請輸入整數')
             except Exception as e:
                 print('錯誤訊息：', e)
