@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!usr/bin/env python3
 
 import random
 import pandas as pd
@@ -20,7 +20,7 @@ class KeyinEx:
                 Count = input('練習次數: ')
                 if Count == 'end':
                     print('close……')
-                    testk.close_sys()
+                    sys.exit()
                 elif Count.isdigit():
                     if 1 <= int(Count) <= 50:
                         self.exCount = int(Count)
@@ -39,7 +39,7 @@ class KeyinEx:
         temp_space = random.sample(self.words, k=self.exCount)
         while temp_space:
             w = temp_space.pop()
-            print(f'EN:{w[0]}\nTW:{w[1]}')
+            print(f'EN:{w[0]}\tTW:{w[1]}')
             key_in = input('keyin: ')
             if key_in.lower() == w[0].lower():
                 print('ok')
@@ -47,23 +47,19 @@ class KeyinEx:
                 print('error')
                 self.erCount += 1
     
-
-    def close_sys(self):
-        sys.exit()
-
-
+        
     def level(self):
         if self.erCount == 0:
             print('恭喜你！太完美了！')
         else:
             print(f'可惜錯了{self.erCount}個！')
 
+### 資料處理 ###
 
 class DataCsv:
     def __init__(self, allpath):
         self.path = allpath
-        self.df = pd.read_csv(self.path)
-        self.data = self.df.describe()  
+        self.df = pd.read_csv(self.path)  
         
 
     def outcsv(self):
@@ -73,22 +69,17 @@ class DataCsv:
         enandtw = zip(ens, tws)
         words = list(enandtw)
         return words
-    
-    def testdata(self):
-        mydata = self.data
-        print(mydata)
 
 
-### 資料處理 ###
-print("請輸入練習次數（1~50之間的數字） or 輸入'end'離開程式")
 filepath = os.path.dirname(os.path.abspath(__file__))
 wpath = os.path.join(filepath, 'words.csv')
 
-
 ### 主程式 ###
+
+print("請輸入練習次數（1~50之間的數字） or 輸入'end'離開程式")
+
 csvdata = DataCsv(wpath)
 words = csvdata.outcsv()
-csvdata.testdata()
 
 testk = KeyinEx(words)
 testk.mycount()
