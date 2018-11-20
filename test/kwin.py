@@ -3,9 +3,11 @@ import pandas as pd
 import os
 import sys
 
+from sqlfunc import Sql_Create 
+
 ### 功能函數 ###
 
-class KeyinEx:
+class EnType:
     def __init__(self, words, exCount=0, erCount=0):
         self.words = words
         self.exCount = exCount
@@ -15,11 +17,11 @@ class KeyinEx:
     def mycount(self):
         while True:
             try:
-                Count = input('練習次數: ')
+                Count = input('練習的單字數量: ' )
                 if Count == 'end':
                     print('close……')
                     sys.exit()
-                elif Count.isdigit():
+                elif Count.isnumeric():
                     if 1 <= int(Count) <= 50:
                         self.exCount = int(Count)
                         break
@@ -54,32 +56,16 @@ class KeyinEx:
 
 ### 資料處理 ###
 
-class DataCsv:
-    def __init__(self, allpath):
-        self.path = allpath
-        self.df = pd.read_csv(self.path)  
-        
-
-    def outcsv(self):
-        self.df.columns = ['1', '2', 'en', 'tw' ]
-        ens = self.df['en']
-        tws = self.df['tw']
-        enandtw = zip(ens, tws)
-        words = list(enandtw)
-        return words
-
-
-filepath = os.path.dirname(os.path.abspath(__file__))
-wpath = os.path.join(filepath, 'words.csv')
+sq = Sql_Create()
+word_data = sq.sql_find()
+sq.sql_end()
 
 ### 主程式 ###
 
 print("請輸入練習次數（1~50之間的數字） or 輸入'end'離開程式")
 
-csvdata = DataCsv(wpath)
-words = csvdata.outcsv()
 
-testk = KeyinEx(words)
-testk.mycount()
-testk.word_put()
-testk.level()
+obj = EnType(word_data)
+obj.mycount()
+obj.word_put()
+obj.level()
