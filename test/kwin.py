@@ -36,9 +36,8 @@ class EnType:
                 print('請輸入整數！')
         
     
-    
     def word_out(self):
-        temp_space = list()
+        #temp_space = list()
         temp_space = random.sample(self.words, k=self.exCount)
         while temp_space:
             w = temp_space.pop()

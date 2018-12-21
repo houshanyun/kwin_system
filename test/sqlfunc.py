@@ -1,8 +1,8 @@
 import sqlite3 as sql
 import os
 
-
 class Sql_Create:
+
     filepath = os.path.dirname(os.path.abspath(__file__))
     dbpath = os.path.join(filepath, 'words.db')
 
@@ -10,8 +10,19 @@ class Sql_Create:
         self.conn = sql.connect(self.dbpath)
 
 
+    def sql_create(self):
+        self.conn.execute(
+            '''
+            CREATE TABLE words.db (
+            test TEXT, 
+            test1 TEXT
+            )'''
+        )
+
+
     def sql_addval(self, en, tc):
         self.conn.execute(f"INSERT INTO 'word_table' VALUES('{en}', '{tc}')")
+
 
     def sql_alter(self, col_name, typ='INTEGER'):
         self.conn.execute(f'ALTER TABLE word_table ADD COLUMN {col_name} {typ}')
@@ -25,6 +36,7 @@ class Sql_Create:
         cur = self.conn.execute('SELECT * FROM word_table')
         row = cur.fetchall()
         return row
+
 
     def sql_send(self):
         self.conn.commit()
